@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foundations & Methods of Scientific Psychology</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e0c;
+    --bg2: #1a1814;
+    --bg3: #242018;
+    --bg4: #2e2a22;
+    --gold: #c9a96e;
+    --gold-light: #e4c99a;
+    --gold-dim: #7a6440;
+    --cream: #f0e8d8;
+    --cream-dim: #b8a888;
+    --red: #c45c5c;
+    --green: #6a9e72;
+    --blue: #5c8fb5;
+    --teal: #4a9090;
+    --purple: #8a6ab5;
+    --border: rgba(201,169,110,0.2);
+    --border-bright: rgba(201,169,110,0.5);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: linear-gradient(180deg, #1a1510 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%; transform: translateX(-50%);
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(201,169,110,0.1);
+    border: 1px solid var(--border-bright);
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 5vw, 46px);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  header h1 span { color: var(--gold); font-style: italic; }
+  header p {
+    color: var(--cream-dim);
+    font-size: 14px;
+    max-width: 560px;
+    margin: 0 auto 30px;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    max-width: 500px;
+    margin: 0 auto;
+    background: var(--bg3);
+    border-radius: 4px;
+    height: 6px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    border-radius: 4px;
+    transition: width 0.6s ease;
+    width: 0%;
+  }
+  .progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold-dim);
+    text-align: center;
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    padding: 24px 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+  }
+  .nav-tab {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--cream-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 2px 2px 0 0;
+    border-bottom: none;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+    margin-bottom: -1px;
+    position: relative;
+    bottom: 0;
+  }
+  .nav-tab:hover { color: var(--gold-light); border-color: var(--border-bright); }
+  .nav-tab.active {
+    background: var(--bg2);
+    color: var(--gold);
+    border-color: var(--border-bright);
+    border-bottom: 1px solid var(--bg2);
+    font-weight: 600;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    display: none;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
+  }
+  .section.active { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .section-title span { color: var(--gold); font-style: italic; }
+  .section-subtitle {
+    color: var(--cream-dim);
+    font-size: 13px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--border-bright); }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--gold);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-title .icon { font-size: 20px; }
+  .card p { color: var(--cream-dim); font-size: 14px; line-height: 1.7; }
+  .card p strong { color: var(--cream); }
+  .card p em { color: var(--gold-light); font-style: italic; }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+
+  /* ── PYRAMID ── */
+  .pyramid-wrap { text-align: center; margin: 32px 0; }
+  .pyramid-row {
+    margin: 0 auto 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pyramid-row:hover .pyr-block { filter: brightness(1.3); }
+  .pyr-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 0 16px;
+    height: 42px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  .pyr-label {
+    font-size: 12px;
+    color: var(--cream-dim);
+    width: 180px;
+    text-align: left;
+  }
+  .pyr-arrow { color: var(--gold-dim); font-size: 14px; }
+  .pyr-1 .pyr-block { width: 380px; background: rgba(106,158,114,0.25); border-color: rgba(106,158,114,0.5); color: #8dc89a; }
+  .pyr-2 .pyr-block { width: 320px; background: rgba(92,143,181,0.2); border-color: rgba(92,143,181,0.4); color: #7fb5d8; }
+  .pyr-3 .pyr-block { width: 260px; background: rgba(201,169,110,0.15); border-color: rgba(201,169,110,0.3); color: var(--gold); }
+  .pyr-4 .pyr-block { width: 200px; background: rgba(196,92,92,0.15); border-color: rgba(196,92,92,0.3); color: #d88080; }
+
+  /* ── FLOW DIAGRAM ── */
+  .flow-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    padding: 16px 0;
+    margin: 24px 0;
+  }
+  .flow-node {
+    flex-shrink: 0;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 18px;
+    text-align: center;
+    min-width: 120px;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .flow-node:hover { border-color: var(--gold); background: var(--bg4); }
+  .flow-node .fn-icon { font-size: 22px; margin-bottom: 4px; }
+  .flow-node .fn-title { font-weight: 600; font-size: 13px; color: var(--gold); }
+  .flow-node .fn-sub { font-size: 11px; color: var(--cream-dim); margin-top: 2px; }
+  .flow-arrow {
+    flex-shrink: 0;
+    color: var(--gold-dim);
+    font-size: 20px;
+    padding: 0 8px;
+  }
+
+  /* ── CAUSATION TRIANGLE ── */
+  .causation-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .crit-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .crit-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .crit-num {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--gold);
+    color: var(--bg);
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .crit-icon { font-size: 28px; margin: 10px 0 8px; }
+  .crit-title { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--gold-light); margin-bottom: 6px; }
+  .crit-def { font-size: 12px; color: var(--cream-dim); line-height: 1.6; }
+
+  /* ── COMPARISON TABLE ── */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13px;
+  }
+  .comp-table th {
+    background: var(--bg3);
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    padding: 12px 16px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+  .comp-table td {
+    padding: 11px 16px;
+    border: 1px solid var(--border);
+    color: var(--cream-dim);
+    background: var(--bg2);
+    vertical-align: top;
+  }
+  .comp-table tr:hover td { background: var(--bg3); color: var(--cream); }
+  .comp-table td strong { color: var(--cream); }
+  .comp-table .highlight-cell { color: var(--gold-light); font-weight: 600; }
+
+  /* ── MISCONCEPTION FLIP CARDS ── */
+  .flip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 24px 0; }
+  .flip-card { perspective: 800px; height: 160px; cursor: pointer; }
+  .flip-inner {
+    width: 100%; height: 100%;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+    position: relative;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%; height: 100%;
+    backface-visibility: hidden;
+    border-radius: 4px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .flip-front {
+    background: var(--bg2);
+    border: 1px solid rgba(196,92,92,0.4);
+  }
+  .flip-back {
+    background: var(--bg3);
+    border: 1px solid rgba(106,158,114,0.4);
+    transform: rotateY(180deg);
+  }
+  .flip-front .label { font-size: 10px; letter-spacing: 2px; color: var(--red); text-transform: uppercase; margin-bottom: 8px; font-family: 'DM Mono', monospace; }
+  .flip-back .label { font-size: 10px; letter-spacing: 2px; color: var(--green); text-transform: uppercase; margin-bottom: 8px; font-family: 'DM Mono', monospace; }
+  .flip-front p, .flip-back p { font-size: 13px; color: var(--cream-dim); line-height: 1.6; }
+  .flip-back p strong { color: var(--green); }
+  .flip-hint { font-size: 10px; color: var(--gold-dim); text-align: center; margin-top: 8px; font-style: italic; }
+
+  /* ── PLACEBO TABLE ── */
+  .placebo-grid {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 20px 0;
+    font-size: 13px;
+  }
+  .pg-cell {
+    padding: 12px 14px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .pg-cell:last-child, .pg-cell:nth-child(4n) { border-right: none; }
+  .pg-header { background: var(--bg3); color: var(--gold); font-weight: 600; font-size: 12px; letter-spacing: 0.5px; }
+  .pg-g1 { background: rgba(106,158,114,0.08); }
+  .pg-g2 { background: rgba(92,143,181,0.08); }
+  .pg-g3 { background: rgba(201,169,110,0.08); }
+  .pg-g4 { background: rgba(138,106,181,0.08); }
+  .pg-group { font-weight: 700; color: var(--gold-light); }
+  .pg-measure { color: var(--cream); font-weight: 500; }
+  .pg-note { font-size: 11px; color: var(--cream-dim); }
+
+  /* ── CAUSAL CHAIN ── */
+  .chain-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 24px 0;
+    position: relative;
+  }
+  .chain-wrap::before {
+    content: '';
+    position: absolute;
+    left: 32px;
+    top: 40px;
+    bottom: 40px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--blue), var(--red));
+  }
+  .chain-node {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 16px 0;
+    position: relative;
+    z-index: 1;
+  }
+  .chain-dot {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 4px;
+    border: 2px solid transparent;
+  }
+  .chain-dot.distal { background: rgba(92,143,181,0.2); border-color: var(--blue); color: var(--blue); }
+  .chain-dot.proximal { background: rgba(196,92,92,0.2); border-color: var(--red); color: var(--red); }
+  .chain-content {}
+  .chain-type { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-family: 'DM Mono', monospace; margin-bottom: 2px; }
+  .chain-type.distal { color: var(--blue); }
+  .chain-type.proximal { color: var(--red); }
+  .chain-title { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--cream); margin-bottom: 4px; }
+  .chain-desc { font-size: 13px; color: var(--cream-dim); }
+
+  /* ── QUIZ ── */
+  .quiz-wrap { margin-top: 32px; }
+  .quiz-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .quiz-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--gold); }
+  .quiz-score-badge {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 2px;
+  }
+  .question-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 16px;
+    transition: all 0.3s;
+  }
+  .question-card.answered-correct { border-color: rgba(106,158,114,0.6); background: rgba(106,158,114,0.05); }
+  .question-card.answered-wrong { border-color: rgba(196,92,92,0.4); }
+  .q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold-dim);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .q-text {
+    font-size: 15px;
+    color: var(--cream);
+    margin-bottom: 18px;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+  .q-options { display: flex; flex-direction: column; gap: 8px; }
+  .q-option {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--cream-dim);
+    transition: all 0.2s;
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .q-option:hover:not(:disabled) { border-color: var(--border-bright); color: var(--cream); background: var(--bg4); }
+  .q-option:disabled { cursor: default; }
+  .q-option.correct { border-color: rgba(106,158,114,0.8); background: rgba(106,158,114,0.12); color: #8dc89a; }
+  .q-option.wrong { border-color: rgba(196,92,92,0.6); background: rgba(196,92,92,0.08); color: #d88080; }
+  .q-option.reveal-correct { border-color: rgba(106,158,114,0.5); background: rgba(106,158,114,0.06); color: #8dc89a; font-style: italic; }
+  .opt-letter {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'DM Mono', monospace;
+    color: var(--gold-dim);
+  }
+  .q-option.correct .opt-letter { background: rgba(106,158,114,0.3); border-color: var(--green); color: var(--green); }
+  .q-option.wrong .opt-letter { background: rgba(196,92,92,0.3); border-color: var(--red); color: var(--red); }
+  .q-explanation {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: var(--bg4);
+    border-left: 3px solid var(--gold-dim);
+    border-radius: 0 3px 3px 0;
+    font-size: 13px;
+    color: var(--cream-dim);
+    display: none;
+    line-height: 1.7;
+  }
+  .q-explanation strong { color: var(--gold-light); }
+  .q-explanation.show { display: block; animation: fadeIn 0.3s ease; }
+
+  /* ── GLOSSARY ── */
+  .gloss-search {
+    width: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .gloss-search:focus { border-color: var(--border-bright); }
+  .gloss-search::placeholder { color: var(--cream-dim); }
+  .gloss-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .gloss-item:hover { border-color: var(--border-bright); }
+  .gloss-term {
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    color: var(--gold-light);
+    font-size: 14px;
+  }
+  .gloss-term .g-arrow { color: var(--gold-dim); font-size: 12px; transition: transform 0.2s; }
+  .gloss-item.open .g-arrow { transform: rotate(180deg); }
+  .gloss-def {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    font-size: 13px;
+    color: var(--cream-dim);
+    line-height: 1.7;
+    border-top: 0px solid var(--border);
+  }
+  .gloss-item.open .gloss-def {
+    max-height: 300px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--border);
+  }
+  .gloss-def strong { color: var(--cream); }
+  .gloss-tag {
+    display: inline-block;
+    background: rgba(201,169,110,0.12);
+    border: 1px solid var(--border);
+    color: var(--gold-dim);
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-right: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    background: rgba(201,169,110,0.07);
+    border: 1px solid rgba(201,169,110,0.25);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 4px 4px 0;
+    padding: 18px 20px;
+    margin: 20px 0;
+    font-size: 14px;
+    color: var(--cream-dim);
+    line-height: 1.7;
+  }
+  .highlight-box strong { color: var(--gold-light); }
+  .highlight-box .hb-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .warn-box {
+    background: rgba(196,92,92,0.07);
+    border: 1px solid rgba(196,92,92,0.25);
+    border-left: 3px solid var(--red);
+    border-radius: 0 4px 4px 0;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: var(--cream-dim);
+    line-height: 1.7;
+  }
+  .warn-box strong { color: #d88080; }
+
+  /* ── THREE DOOR PROBLEM ── */
+  .doors-wrap {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 30px 0;
+    flex-wrap: wrap;
+  }
+  .door {
+    width: 120px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .door-visual {
+    height: 160px;
+    border: 2px solid var(--border);
+    border-radius: 8px 8px 0 0;
+    background: var(--bg3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .door-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent);
+  }
+  .door:hover .door-visual { border-color: var(--gold); transform: translateY(-4px); }
+  .door-num { font-size: 13px; color: var(--cream-dim); margin-top: 8px; font-weight: 600; }
+  .door-prob {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .door-prob.low { color: var(--red); }
+  .door-prob.high { color: var(--green); }
+  .door-label { font-size: 11px; color: var(--cream-dim); margin-top: 2px; }
+
+  /* ── CHARACTERISTICS ── */
+  .char-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 24px 0;
+  }
+  .char-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 16px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .char-card:hover { border-color: var(--gold-dim); transform: translateY(-2px); }
+  .char-icon { font-size: 30px; margin-bottom: 10px; }
+  .char-title { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--gold); margin-bottom: 6px; }
+  .char-desc { font-size: 12px; color: var(--cream-dim); line-height: 1.6; }
+
+  /* ── EXAM TIPS ── */
+  .exam-tip {
+    background: var(--bg3);
+    border: 1px solid rgba(74,144,144,0.4);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 4px 4px 0;
+    padding: 16px 20px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: var(--cream-dim);
+    line-height: 1.7;
+  }
+  .exam-tip strong { color: var(--teal); }
+  .exam-tip .et-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  /* ── UTILITY ── */
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--cream);
+    margin: 28px 0 14px;
+  }
+  h3 span { color: var(--gold); font-style: italic; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+  .tag {
+    display: inline-block;
+    background: rgba(201,169,110,0.1);
+    border: 1px solid var(--border);
+    color: var(--gold-dim);
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-right: 6px;
+  }
+  .tag.green { background: rgba(106,158,114,0.1); border-color: rgba(106,158,114,0.3); color: var(--green); }
+  .tag.red { background: rgba(196,92,92,0.1); border-color: rgba(196,92,92,0.3); color: var(--red); }
+  .tag.blue { background: rgba(92,143,181,0.1); border-color: rgba(92,143,181,0.3); color: var(--blue); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 30px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--gold-dim);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 600px) {
+    .causation-wrap { grid-template-columns: 1fr; }
+    .flow-wrap { gap: 0; }
+    .flow-node { min-width: 90px; padding: 10px 10px; }
+    .placebo-grid { grid-template-columns: 1fr 1fr; font-size: 11px; }
+    .pyr-block { font-size: 11px !important; }
+    .pyr-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">EUR · International Psychology · Module 1</div>
+  <h1>Foundations & Methods of<br><span>Scientific Psychology</span></h1>
+  <p>A complete interactive study guide — visual maps, concept deep-dives, misconception flashcards, and practice questions.</p>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+  <div class="progress-label" id="progressLabel">0 / 0 questions answered</div>
+</header>
+
+<!-- NAV -->
+<div class="nav-tabs" id="navTabs">
+  <button class="nav-tab active" onclick="showSection('overview')">🗺️ Overview</button>
+  <button class="nav-tab" onclick="showSection('ways')">🧭 Ways of Knowing</button>
+  <button class="nav-tab" onclick="showSection('goals')">🎯 Goals of Science</button>
+  <button class="nav-tab" onclick="showSection('causation')">⛓️ Causation</button>
+  <button class="nav-tab" onclick="showSection('characteristics')">🔬 Characteristics</button>
+  <button class="nav-tab" onclick="showSection('research')">🧪 Research Types</button>
+  <button class="nav-tab" onclick="showSection('misconceptions')">⚠️ Misconceptions</button>
+  <button class="nav-tab" onclick="showSection('glossary')">📖 Glossary</button>
+  <button class="nav-tab" onclick="showSection('quiz')">✏️ Quiz</button>
+</div>
+
+<!-- ═══════════════════════════════════════════ OVERVIEW ═══ -->
+<div class="section active" id="section-overview">
+  <div class="section-title">The <span>Big Picture</span></div>
+  <div class="section-subtitle">The single core question: <em>"How do we know what we know?"</em> — and why science answers it better than anything else.</div>
+
+  <div class="highlight-box">
+    <div class="hb-title">🧠 The Master Narrative</div>
+    Humans start with <strong>tenacity</strong> ("always believed") and <strong>authority</strong> ("experts said so") — fast but unreliable. We upgrade to <strong>reason</strong> (logic) and <strong>empiricism</strong> (observation), but each fails alone. Science solves this with <strong>Systematic Empiricism</strong>: logic + structured observation working together. Scientists build <strong>theories</strong>, test <strong>hypotheses</strong>, chase <strong>causal explanations</strong>, and use <strong>control</strong> to eliminate alternative explanations.
+  </div>
+
+  <h3>The <span>Knowledge Hierarchy</span></h3>
+  <p style="color:var(--cream-dim);font-size:13px;margin-bottom:16px;">Click any level to learn more — from weakest to strongest:</p>
+  <div class="pyramid-wrap">
+    <div class="pyramid-row pyr-1" onclick="showSection('characteristics')">
+      <div class="pyr-arrow">←</div>
+      <div class="pyr-block">✦ SYSTEMATIC EMPIRICISM ✦</div>
+      <div class="pyr-label">Science lives here. Reason + structured observation.</div>
+    </div>
+    <div class="pyramid-row pyr-2" onclick="showSection('ways')">
+      <div class="pyr-arrow">←</div>
+      <div class="pyr-block">REASON &nbsp;&nbsp;+&nbsp;&nbsp; EMPIRICISM</div>
+      <div class="pyr-label">Both needed — each alone has fatal flaws.</div>
+    </div>
+    <div class="pyramid-row pyr-3" onclick="showSection('ways')">
+      <div class="pyr-arrow">←</div>
+      <div class="pyr-block">AUTHORITY</div>
+      <div class="pyr-label">Efficient, dependent on source quality.</div>
+    </div>
+    <div class="pyramid-row pyr-4" onclick="showSection('ways')">
+      <div class="pyr-arrow">←</div>
+      <div class="pyr-block">TENACITY</div>
+      <div class="pyr-label">Habit, comfort. No self-correction.</div>
+    </div>
+  </div>
+
+  <h3>The <span>4 Goals</span> of Science</h3>
+  <div class="flow-wrap">
+    <div class="flow-node">
+      <div class="fn-icon">🔎</div>
+      <div class="fn-title">Description</div>
+      <div class="fn-sub">What?</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">
+      <div class="fn-icon">💡</div>
+      <div class="fn-title">Explanation</div>
+      <div class="fn-sub">Why?</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">
+      <div class="fn-icon">📡</div>
+      <div class="fn-title">Prediction</div>
+      <div class="fn-sub">When/How often?</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">
+      <div class="fn-icon">🎛️</div>
+      <div class="fn-title">Control</div>
+      <div class="fn-sub">How to change?</div>
+    </div>
+  </div>
+  <p style="color:var(--cream-dim);font-size:12px;text-align:center;margin-top:-12px;">Each goal builds on the previous. You cannot Control without first Explaining.</p>
+
+  <h3>The <span>3 Criteria</span> for Causation</h3>
+  <div class="causation-wrap">
+    <div class="crit-card">
+      <div class="crit-num">1</div>
+      <div class="crit-icon">⏱️</div>
+      <div class="crit-title">Temporal Order</div>
+      <div class="crit-def">Cause <em>(IV)</em> must demonstrably occur <strong>before</strong> the effect <em>(DV)</em>. Rules out Reverse Causality.</div>
+    </div>
+    <div class="crit-card">
+      <div class="crit-num">2</div>
+      <div class="crit-icon">📈</div>
+      <div class="crit-title">Covariation</div>
+      <div class="crit-def">Cause and effect must <strong>vary together</strong>. When A is present, B occurs. When A is absent, B is absent.</div>
+    </div>
+    <div class="crit-card">
+      <div class="crit-num">3</div>
+      <div class="crit-icon">🚫</div>
+      <div class="crit-title">Absence of PAEs</div>
+      <div class="crit-def">All plausible alternative explanations (confounds) must be <strong>ruled out</strong>. Hardest criterion. Needs experimental control.</div>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠️ The Golden Rule:</strong> Correlation is <em>necessary</em> for causation — but NEVER sufficient. High correlation alone tells you nothing about cause.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ WAYS OF KNOWING ═══ -->
+<div class="section" id="section-ways">
+  <div class="section-title"><span>Ways</span> of Acquiring Knowledge</div>
+  <div class="section-subtitle">Four non-scientific methods + the scientific synthesis. The Three-Door Problem is the gateway case study.</div>
+
+  <div class="highlight-box">
+    <div class="hb-title">🚪 The Monty Hall Problem — Your Anchor Story</div>
+    3 doors: 1 car, 2 goats. You pick Door 1. Host opens a goat door. Do you switch?<br><br>
+    <strong>Intuition says:</strong> 50/50 — doesn't matter. <em>(Tenacity at work)</em><br>
+    <strong>Reason says:</strong> ALWAYS switch. Your door = 1/3. The other group = 2/3. Host concentrates that 2/3 onto one door.<br><br>
+    This controversy — where academics attacked Marilyn vos Savant's correct answer — is the perfect illustration of <strong>Tenacity overriding Reason</strong>.
+  </div>
+
+  <div class="doors-wrap" id="doorsDemo">
+    <div class="door" onclick="toggleDoor(1)">
+      <div class="door-visual" id="door1">🚪</div>
+      <div class="door-num">Door 1 — Your Pick</div>
+      <div class="door-prob low" id="prob1">1/3</div>
+      <div class="door-label">probability</div>
+    </div>
+    <div class="door" onclick="toggleDoor(2)">
+      <div class="door-visual" id="door2">🚪</div>
+      <div class="door-num">Door 2 — Host Opens</div>
+      <div class="door-prob low" id="prob2">0</div>
+      <div class="door-label">probability (goat!)</div>
+    </div>
+    <div class="door" onclick="toggleDoor(3)">
+      <div class="door-visual" id="door3">🚪</div>
+      <div class="door-num">Door 3 — Switch to This!</div>
+      <div class="door-prob high" id="prob3">2/3</div>
+      <div class="door-label">probability — SWITCH!</div>
+    </div>
+  </div>
+  <p style="color:var(--cream-dim);font-size:12px;text-align:center;">Click a door to reveal what's behind it.</p>
+
+  <h3>The <span>4 Non-Scientific</span> Ways</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span class="icon">🧱</span> Tenacity</div>
+      <p><strong>What:</strong> Believing because you always have. Force of habit.<br>
+      <strong>Strength:</strong> Psychologically comfortable, quick decisions.<br>
+      <strong>Fatal flaw:</strong> Zero self-correction. Stubbornly resists counter-evidence.<br>
+      <em>Example: "Staying" with Door 1 because your gut said so."</em></p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📚</span> Authority</div>
+      <p><strong>What:</strong> Accepting facts from trusted/respected sources — parents, experts, textbooks.<br>
+      <strong>Strength:</strong> Efficient — essential in specialist societies.<br>
+      <strong>Fatal flaw:</strong> Truth is entirely dependent on the source's credibility, expertise, and objectivity. Uncritical acceptance = danger.<br>
+      <em>The misconception: Authority is NOT always bad — uncritical authority is.</em></p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🔍</span> Reason (A Priori)</div>
+      <p><strong>What:</strong> Logic and intellectual rationality. Deductive/inductive arguments (syllogisms).<br>
+      <strong>Strength:</strong> If premises are true → conclusions <em>must</em> be true (deductively).<br>
+      <strong>Fatal flaw:</strong> The Problem of Premises. A conclusion can be logically <em>valid</em> but empirically <em>false</em> if the premise is wrong.<br>
+      <em>Example: "Infants understand Object Permanence only after 9 months" — Piaget's logical framework, empirically overturned.</em></p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">👁️</span> Empiricism</div>
+      <p><strong>What:</strong> Knowledge from direct observation/experience using the senses.<br>
+      <strong>Strength:</strong> Grounds claims in objective, external reality.<br>
+      <strong>Fatal flaw:</strong> Unaided empiricism fails because of:<br>
+      &nbsp;&nbsp;① <strong>Confirmation Bias</strong> — only noticing confirming info<br>
+      &nbsp;&nbsp;② <strong>Lack of Controls</strong> — can't rule out confounds<br>
+      &nbsp;&nbsp;③ <strong>Failure to consider PAEs</strong> — reverse causality goes unnoticed</p>
+    </div>
+  </div>
+
+  <h3>The <span>Scientific Solution</span> — Systematic Empiricism</h3>
+  <div class="card" style="border-color: rgba(106,158,114,0.5);">
+    <div class="card-title"><span class="icon">⚗️</span> Systematic Empiricism</div>
+    <p>The synthesis that fixes both Reason's and Empiricism's blind spots. Three steps:<br><br>
+    <strong>1. Collect data</strong> in a structured, controlled way (controlled experiments)<br>
+    <strong>2. Evaluate data</strong> with rigorous rational logic (Reason/Statistics) against a hypothesis<br>
+    <strong>3. Develop, test, refine explanations</strong> (hypotheses → theories) based on the data<br><br>
+    Reason provides the logical <em>framework</em> (testable hypotheses). Systematic Empiricism provides the rigorous, objective <em>data</em> to test and correct them.<br>
+    <em>Psychology is scientific ONLY because it adheres to this methodology.</em></p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="hb-title">⚡ Key Distinction: Sunk Cost Fallacy</div>
+    <strong>Tenacity in disguise.</strong> Staying with Door 1 because "I already chose it" — an investor stubbornly keeping a bad stock because they've invested too much to quit. Irrational adherence to a poor choice to avoid feeling the loss of an initial investment.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ GOALS ═══ -->
+<div class="section" id="section-goals">
+  <div class="section-title">The 4 <span>Goals</span> of Science</div>
+  <div class="section-subtitle">Each goal is hierarchical — you must achieve Description before Explanation, Explanation before Prediction, and so on.</div>
+
+  <div class="flow-wrap" style="flex-direction:column;gap:0;padding:0;">
+    <div style="display:flex;gap:0;align-items:stretch;overflow-x:auto;">
+      <div class="flow-node" style="flex:1;min-width:140px;border-radius:4px 0 0 4px;border-right:none;">
+        <div class="fn-icon">🔎</div>
+        <div class="fn-title">Description</div>
+        <div class="fn-sub">WHAT is happening?</div>
+      </div>
+      <div class="flow-arrow" style="align-self:center;">→</div>
+      <div class="flow-node" style="flex:1;min-width:140px;border-radius:0;border-right:none;">
+        <div class="fn-icon">💡</div>
+        <div class="fn-title">Explanation</div>
+        <div class="fn-sub">WHY does it happen?</div>
+      </div>
+      <div class="flow-arrow" style="align-self:center;">→</div>
+      <div class="flow-node" style="flex:1;min-width:140px;border-radius:0;border-right:none;">
+        <div class="fn-icon">📡</div>
+        <div class="fn-title">Prediction</div>
+        <div class="fn-sub">WHEN will it happen?</div>
+      </div>
+      <div class="flow-arrow" style="align-self:center;">→</div>
+      <div class="flow-node" style="flex:1;min-width:140px;border-radius:0 4px 4px 0;">
+        <div class="fn-icon">🎛️</div>
+        <div class="fn-title">Control</div>
+        <div class="fn-sub">HOW to change it?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:24px;">
+    <div class="card">
+      <div class="card-title"><span class="icon">🔎</span> Description — "What?"</div>
+      <p>Identifying and portraying the characteristics, phenomena, or facts of a behavior. This includes defining, classifying, and measuring variables.<br><br>
+      <em>Example: Describing the prevalence and demographics of binge drinking among college students.</em><br><br>
+      Basic research typically operates at this level.</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">💡</span> Explanation — "Why?"</div>
+      <p>Determining the <strong>causes</strong> of a phenomenon. This is the most intellectually demanding goal. Requires meeting 3 necessary conditions:<br><br>
+      <strong>① Temporal Order</strong> — cause precedes effect<br>
+      <strong>② Covariation</strong> — cause and effect co-vary<br>
+      <strong>③ Absence of PAEs</strong> — all confounds ruled out<br><br>
+      Requires controlled experimental design.</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📡</span> Prediction — "When?"</div>
+      <p>Forecasting future outcomes based on current understanding.<br><br>
+      <strong>Critical distinction:</strong> Prediction ≠ Explanation. A variable can be a good <em>predictor</em> (high correlation) without being the true <em>cause</em>.<br><br>
+      <em>Example: High School GPA predicts College GPA well — but motivation may be the true underlying cause of both.</em></p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🎛️</span> Control — "How to influence?"</div>
+      <p>The final, ultimate goal of science. Works in two ways:<br><br>
+      <strong>1. Experimental Control (Method):</strong> Manipulate IV, hold all other variables constant. Rules out PAEs.<br><br>
+      <strong>2. Applied Control (Goal):</strong> Apply scientific knowledge to modify a phenomenon in a desired direction — e.g., developing behavioral therapy programs.<br><br>
+      <em>Hierarchy: Description ≥ Explanation ≥ Prediction → Control</em></p>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠️ Exam Trap — "Prediction Equals Explanation":</strong> A classic mistake. Because you can predict X from Y (high correlation), X must cause Y. FALSE. A third variable Z could cause both. Correlation is necessary but never sufficient for causation.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ CAUSATION ═══ -->
+<div class="section" id="section-causation">
+  <div class="section-title">Causal <span>Inference</span> & PAEs</div>
+  <div class="section-subtitle">The hardest part of science. Three criteria, two classic traps, one solution.</div>
+
+  <h3>The <span>3 Criteria</span> for Causation</h3>
+  <div class="causation-wrap">
+    <div class="crit-card">
+      <div class="crit-num">1</div>
+      <div class="crit-icon">⏱️</div>
+      <div class="crit-title">Temporal Order</div>
+      <div class="crit-def">Cause (IV) must demonstrably occur <strong>before</strong> the effect (DV). Rules out Reverse Causality (Y causes X).</div>
+    </div>
+    <div class="crit-card">
+      <div class="crit-num">2</div>
+      <div class="crit-icon">📈</div>
+      <div class="crit-title">Covariation</div>
+      <div class="crit-def">Cause and effect must <strong>co-vary</strong>. When cause present → effect occurs. When cause absent → effect absent.</div>
+    </div>
+    <div class="crit-card">
+      <div class="crit-num">3</div>
+      <div class="crit-icon">🚫</div>
+      <div class="crit-title">Absence of PAEs</div>
+      <div class="crit-def">All plausible alternative explanations must be <strong>systematically ruled out</strong>. The hardest. Requires experimental control.</div>
+    </div>
+  </div>
+
+  <h3>The <span>Causal Chain</span> — Distal vs Proximal</h3>
+  <p style="color:var(--cream-dim);font-size:13px;margin-bottom:20px;">Complex psychological phenomena rarely have a single cause — they emerge from a chain of linked causes over time.</p>
+  <div class="chain-wrap">
+    <div class="chain-node">
+      <div class="chain-dot distal">🧬</div>
+      <div class="chain-content">
+        <div class="chain-type distal">Distal Cause — Remote/Early-Stage</div>
+        <div class="chain-title">Genetic Vulnerability / Prenatal Insults</div>
+        <div class="chain-desc">Remote, early-stage factors that increase vulnerability but do not immediately trigger the outcome. Examples in schizophrenia: inherited genetic mutations, prenatal infections.</div>
+      </div>
+    </div>
+    <div class="chain-node">
+      <div class="chain-dot distal">🌿</div>
+      <div class="chain-content">
+        <div class="chain-type distal">Distal Cause — Developmental</div>
+        <div class="chain-title">Early Childhood Adversity / Trauma</div>
+        <div class="chain-desc">Accumulated vulnerability factors during development. Still remote — building the causal chain toward eventual outcome.</div>
+      </div>
+    </div>
+    <div class="chain-node">
+      <div class="chain-dot proximal">⚡</div>
+      <div class="chain-content">
+        <div class="chain-type proximal">Proximal Cause — Immediate/Triggering</div>
+        <div class="chain-title">Stressful Life Events / Drug Use in Young Adulthood</div>
+        <div class="chain-desc">Immediate, close-in-time factors that directly trigger or contribute to the outcome, especially in <em>already vulnerable</em> individuals. This is the proximate cause — the trigger that fires the loaded gun.</div>
+      </div>
+    </div>
+    <div class="chain-node">
+      <div class="chain-dot proximal">💥</div>
+      <div class="chain-content">
+        <div class="chain-type proximal">Outcome</div>
+        <div class="chain-title">Psychological Disorder / Behavior</div>
+        <div class="chain-desc">The result of the full causal chain. Understanding the whole chain — not just the trigger — is essential for correct explanation and effective intervention.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>The 2 Types of <span>PAEs</span> (Plausible Alternative Explanations)</h3>
+  <div class="grid-2">
+    <div class="card" style="border-left: 3px solid var(--red);">
+      <div class="card-title"><span class="icon">🔄</span> PAE Type 1: Reverse Causality</div>
+      <p>The <em>assumed effect</em> is actually the <em>cause</em>.<br><br>
+      <strong>Example:</strong> We observe Team Cohesion → Winning. But what if Winning → Team Cohesion? The experience of success is what creates the bond.<br><br>
+      This is a challenge to the <strong>Temporal Order</strong> criterion — the causal direction is ambiguous.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--purple);">
+      <div class="card-title"><span class="icon">🔀</span> PAE Type 2: Third-Variable Problem</div>
+      <p>A third unmeasured variable (Z) causes changes in <em>both</em> X and Y, making their correlation entirely spurious.<br><br>
+      <strong>Example:</strong> Superior Talent (Z) → both High Cohesion (X) AND Winning (Y). The cohesion-winning correlation is a coincidence driven by Z.<br><br>
+      This is the challenge to the <strong>Absence of PAEs</strong> criterion.</p>
+    </div>
+  </div>
+
+  <h3>The <span>Solution</span> — Experimental Control</h3>
+  <div class="card" style="border-color: rgba(106,158,114,0.5);">
+    <div class="card-title"><span class="icon">🧪</span> Methodological Control</div>
+    <p>The only way to systematically rule out PAEs. Two primary techniques:<br><br>
+    <strong>Double-Blind Design:</strong> Controls for psychological biases — especially the Placebo Effect. Neither participants nor researchers know who received the treatment. Controls both <em>participant bias</em> and <em>experimenter bias</em>.<br><br>
+    <strong>Random Assignment:</strong> Randomly assigns participants to conditions. Controls for unknown third variables (e.g., talent, genetics) by distributing them equally across groups by chance.</p>
+  </div>
+
+  <h3>The Gold Standard — <span>Balanced Placebo Design</span></h3>
+  <p style="color:var(--cream-dim);font-size:13px;margin-bottom:16px;">Separates the effect of the actual substance from the effect of the belief in the substance (Placebo Effect).</p>
+  <div class="placebo-grid">
+    <div class="pg-cell pg-header">Group</div>
+    <div class="pg-cell pg-header">Actual Drink</div>
+    <div class="pg-cell pg-header">Expectation</div>
+    <div class="pg-cell pg-header">What It Measures</div>
+    <div class="pg-cell pg-g1 pg-group">G1</div>
+    <div class="pg-cell pg-g1">Alcoholic</div>
+    <div class="pg-cell pg-g1">Expects Alcohol</div>
+    <div class="pg-cell pg-g1 pg-measure">Drug Effect + Expectation Effect</div>
+    <div class="pg-cell pg-g2 pg-group">G2</div>
+    <div class="pg-cell pg-g2">Alcoholic</div>
+    <div class="pg-cell pg-g2">Expects Non-Alcoholic</div>
+    <div class="pg-cell pg-g2 pg-measure">Physiological Drug Effect <em>Only</em></div>
+    <div class="pg-cell pg-g3 pg-group">G3</div>
+    <div class="pg-cell pg-g3">Non-Alcoholic</div>
+    <div class="pg-cell pg-g3">Expects Alcohol</div>
+    <div class="pg-cell pg-g3 pg-measure">Expectation Effect Only (Placebo)</div>
+    <div class="pg-cell pg-g4 pg-group">G4</div>
+    <div class="pg-cell pg-g4">Non-Alcoholic</div>
+    <div class="pg-cell pg-g4">Expects Non-Alcoholic</div>
+    <div class="pg-cell pg-g4 pg-measure">Baseline / No-Treatment Effect</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ CHARACTERISTICS ═══ -->
+<div class="section" id="section-characteristics">
+  <div class="section-title">Characteristics of <span>Science</span></div>
+  <div class="section-subtitle">What makes science self-correcting — and why it has real limitations.</div>
+
+  <div class="char-grid">
+    <div class="char-card">
+      <div class="char-icon">📐</div>
+      <div class="char-title">Empirical & Systematic</div>
+      <div class="char-desc">Relies on Systematic Empiricism — structured observation + reason/logic to test and evaluate claims.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-icon">❌</div>
+      <div class="char-title">Falsifiability (Popper)</div>
+      <div class="char-desc">A theory must be capable of being proven false by empirical observation. The fence between science and non-science.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-icon">🎯</div>
+      <div class="char-title">Accuracy & Objectivity</div>
+      <div class="char-desc">Knowledge must reliably reflect what's observed, uninfluenced by personal beliefs or emotions. Achieved via Operational Definitions and double-blind designs.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-icon">📝</div>
+      <div class="char-title">Operational Definitions</div>
+      <div class="char-desc">Concepts defined in terms of specific procedures used to measure or manipulate them. Essential for replication.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-icon">📢</div>
+      <div class="char-title">Public Reporting</div>
+      <div class="char-desc">Findings published via peer-reviewed journals so they can be independently verified, criticized, and replicated.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-icon">🔁</div>
+      <div class="char-title">Replication</div>
+      <div class="char-desc">The ultimate test of a finding's reliability. Conducting a study again with same procedures. Key to science's self-correction.</div>
+    </div>
+  </div>
+
+  <h3>Why Science is <span>Self-Correcting</span></h3>
+  <div class="flow-wrap">
+    <div class="flow-node"><div class="fn-icon">📢</div><div class="fn-title">Public Reporting</div></div>
+    <div class="flow-arrow">+</div>
+    <div class="flow-node"><div class="fn-icon">❌</div><div class="fn-title">Falsifiability</div></div>
+    <div class="flow-arrow">+</div>
+    <div class="flow-node"><div class="fn-icon">🔁</div><div class="fn-title">Replication</div></div>
+    <div class="flow-arrow">=</div>
+    <div class="flow-node" style="border-color:rgba(106,158,114,0.5);"><div class="fn-icon">♻️</div><div class="fn-title">Self-Correcting System</div></div>
+  </div>
+
+  <h3>The <span>Falsifiability</span> Principle — Karl Popper</h3>
+  <div class="grid-2">
+    <div class="card" style="border-color:rgba(106,158,114,0.4);">
+      <div class="card-title" style="color:var(--green);">✅ Falsifiable (Scientific)</div>
+      <p>"Exposure to loud noise increases cortisol levels" — This can be tested. You could measure cortisol after quiet vs loud exposure. A result of no-change would falsify it.<br><br>
+      "Aggressive behavior in children increases with TV violence exposure" — Measurable, testable, falsifiable.</p>
+    </div>
+    <div class="card" style="border-color:rgba(196,92,92,0.4);">
+      <div class="card-title" style="color:var(--red);">❌ Non-Falsifiable (Non-Scientific)</div>
+      <p>Metaphysical claims about faith, ultimate purpose, or morality — no conceivable empirical observation could disprove them.<br><br>
+      Claims that can explain <em>any possible outcome</em> are non-falsifiable — and therefore unscientific.</p>
+    </div>
+  </div>
+
+  <h3>Limitations of <span>Science</span></h3>
+  <div class="card">
+    <div class="card-title"><span class="icon">⚖️</span> What Science Cannot Do</div>
+    <p><strong>No absolute proof:</strong> All scientific conclusions are probabilistic — science provides the best available explanation at a given time, always open to revision.<br><br>
+    <strong>Cannot answer non-empirical questions:</strong> Questions of faith, ultimate purpose, ethics, and morality are outside science's domain.<br><br>
+    <strong>Knowledge is tentative:</strong> Scientific knowledge is provisional — not permanent truth. New replicated data can falsify (disprove) older findings.</p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="hb-title">🔬 Operational Definitions — Deep Dive</div>
+    <strong>Why they matter:</strong> "Aggression" means nothing until you define it as "number of times a child pushes another child during a 30-minute play session." Now it's:<br>
+    • Observable and measurable<br>
+    • Replicable by any researcher<br>
+    • Objective (removes personal interpretation)<br><br>
+    <strong>Exam application:</strong> You will be given a vague construct (love, happiness, intelligence) and asked to write a rigorous Operational Definition for it.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ RESEARCH TYPES ═══ -->
+<div class="section" id="section-research">
+  <div class="section-title">Basic vs <span>Applied</span> Research</div>
+  <div class="section-subtitle">Two types on a continuum — each needs the other.</div>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Basic Research</th>
+        <th>Applied Research</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Primary Goal</strong></td>
+        <td>Increase body of scientific knowledge; explore fundamental nature of phenomena</td>
+        <td>Solve a specific real-world problem or create an intervention</td>
+      </tr>
+      <tr>
+        <td><strong>Questions</strong></td>
+        <td class="highlight-cell">Description & Explanation — Why? How?</td>
+        <td class="highlight-cell">Prediction & Control — Can we fix this?</td>
+      </tr>
+      <tr>
+        <td><strong>Motivation</strong></td>
+        <td>Curiosity-driven</td>
+        <td>Problem-driven</td>
+      </tr>
+      <tr>
+        <td><strong>Analogy</strong></td>
+        <td>🔭 Astronomer mapping the universe</td>
+        <td>🚀 Engineer building the rocket</td>
+      </tr>
+      <tr>
+        <td><strong>Real Example</strong></td>
+        <td>Hofmann, Eaklid & Ekblad: absolute thresholds of hearing and touch</td>
+        <td>Applying those findings to design warning signals in WTC tower disasters</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="highlight-box">
+    <div class="hb-title">🔄 Interdependence — The Crucial Point</div>
+    Basic research provides the fundamental theories → Applied research uses those principles to solve problems → Applied research, in turn, raises new questions that feed back into Basic research. The two are <strong>highly interdependent and reciprocal</strong>. Neither is superior.
+  </div>
+
+  <h3>Anecdotal Evidence — <span>Why It Fails</span></h3>
+  <div class="card" style="border-left: 3px solid var(--red);">
+    <div class="card-title"><span class="icon">📖</span> Anecdotal Evidence</div>
+    <p>Brief reports or descriptions of personal experiences or specific instances used to support a claim.<br><br>
+    <strong>Why it is scientifically weak:</strong><br>
+    It is a form of unaided empiricism and fails to control for the three critical PAEs:<br>
+    &nbsp;&nbsp;① <strong>Spontaneous Remission</strong> — the condition improved on its own<br>
+    &nbsp;&nbsp;② <strong>Placebo Effect</strong> — improvement due to expectation alone<br>
+    &nbsp;&nbsp;③ <strong>Confounding Variables</strong> — a third factor caused the improvement</p>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠️ Most Common Misconception:</strong> "Personal experience is good evidence because it's direct observation." WRONG. Anecdotal evidence is unaided empiricism with zero control. The 3 classic PAEs are almost never ruled out.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ MISCONCEPTIONS ═══ -->
+<div class="section" id="section-misconceptions">
+  <div class="section-title">Misconception <span>Flashcards</span></div>
+  <div class="section-subtitle">Click each card to flip between the misconception and the correction.</div>
+
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="label">❌ Misconception</div>
+          <p>"Authority is always bad and unnecessary in science — we should never trust experts."</p>
+        </div>
+        <div class="flip-back">
+          <div class="label">✅ Correction</div>
+          <p>Authority is <strong>efficient and often necessary</strong> (e.g., trust a surgeon for medical advice). The problem is <strong>uncritical acceptance</strong>. Science requires checking credentials, objectivity, and empirical basis.</p>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="label">❌ Misconception</div>
+          <p>"Prediction equals Explanation. If I can predict X from Y, then Y must cause X."</p>
+        </div>
+        <div class="flip-back">
+          <div class="label">✅ Correction</div>
+          <p><strong>FALSE.</strong> High correlation/covariation only satisfies criterion 2 of causation. A third variable Z could cause both, or the direction could be reversed. <strong>Correlation is necessary but never sufficient</strong> for causation.</p>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="label">❌ Misconception</div>
+          <p>"Scientific theories are just guesses — they're uncertain and unproven."</p>
+        </div>
+        <div class="flip-back">
+          <div class="label">✅ Correction</div>
+          <p>In science, a theory is a systematic body of ideas <strong>repeatedly tested and strongly supported</strong> by empirical evidence (e.g., Evolutionary Theory, Germ Theory). It is emphatically <strong>NOT</strong> a guess.</p>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="label">❌ Misconception</div>
+          <p>"Anecdotal evidence is good evidence because it's based on direct observation."</p>
+        </div>
+        <div class="flip-back">
+          <div class="label">✅ Correction</div>
+          <p>Anecdotal evidence is scientifically <strong>weak</strong> because it is unaided empiricism and fails to control for <strong>Spontaneous Remission, the Placebo Effect, and Confounding Variables</strong>.</p>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="label">❌ Misconception</div>
+          <p>"Skepticism means being cynical — never believing anything."</p>
+        </div>
+        <div class="flip-back">
+          <div class="label">✅ Correction</div>
+          <p>Skepticism is an <strong>intellectual posture of questioning claims and demanding empirical evidence</strong>. It is open-minded and evidence-driven. Cynicism is closed-minded dismissal. They are opposites.</p>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="label">❌ Misconception</div>
+          <p>"The Monty Hall problem is 50/50 after the host opens a door — it resets."</p>
+        </div>
+        <div class="flip-back">
+          <div class="label">✅ Correction</div>
+          <p>The probability does NOT reset. Your original door = <strong>1/3</strong>. The host's non-random action concentrates the 2/3 group probability onto the remaining door. <strong>Always switch: 2/3 vs 1/3.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="flip-hint">Click any card to flip between misconception and correction.</p>
+
+  <h3>Exam <span>Pattern</span> Analysis</h3>
+  <div class="exam-tip">
+    <div class="et-label">🎯 High-Probability Essay — Three-Door Problem</div>
+    You will NOT just be asked the answer ("switch"). You'll be asked to <strong>explain WHY the probability changes</strong> — i.e., that the host's action is non-random and concentrates the original 2/3 probability onto the remaining door. The ability to reconstruct and explain the logic table is essential.
+  </div>
+  <div class="exam-tip">
+    <div class="et-label">🎯 High-Probability Application — Causation/PAEs</div>
+    Expect a scenario (like Team Cohesion → Winning). You must: 1) state the 3 criteria for causal explanation; 2) identify a specific Reverse Causality problem (Y → X); 3) identify a specific Third-Variable Problem (Z → X and Y); 4) explain what specific control method would rule out those PAEs.
+  </div>
+  <div class="exam-tip">
+    <div class="et-label">🎯 High-Probability Definition — Operational Definition / Falsifiability</div>
+    You'll be given a vague psychological construct (e.g., "love," "happiness," "intelligence") and asked to develop an appropriate, rigorous Operational Definition. Separately: given a claim, state whether it is or is not falsifiable (Popper) and justify why.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ GLOSSARY ═══ -->
+<div class="section" id="section-glossary">
+  <div class="section-title">Key Terms <span>Glossary</span></div>
+  <div class="section-subtitle">All 25+ key terms from your study guide. Click to expand.</div>
+
+  <input class="gloss-search" id="glossSearch" type="text" placeholder="Search terms..." oninput="filterGlossary(this.value)">
+
+  <div id="glossaryList"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════ QUIZ ═══ -->
+<div class="section" id="section-quiz">
+  <div class="section-title">Practice <span>Quiz</span></div>
+  <div class="section-subtitle">20 questions across all topics. Immediate feedback with detailed explanations.</div>
+
+  <div class="quiz-header">
+    <div class="quiz-title">Foundations & Methods</div>
+    <div class="quiz-score-badge" id="scoreDisplay">0 / 20 correct</div>
+  </div>
+
+  <div id="quizContainer"></div>
+</div>
+
+<footer>Sezen Saracoglu · EUR International Psychology · Foundations & Methods of Scientific Psychology</footer>
+
+<script>
+// ── TAB NAVIGATION ──
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  tabs.forEach(t => { if (t.getAttribute('onclick').includes("'" + id + "'")) t.classList.add('active'); });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── DOOR DEMO ──
+const doorContent = ['🚗','🐐','🐐'];
+let doorsRevealed = [false, false, false];
+function toggleDoor(n) {
+  const el = document.getElementById('door' + n);
+  doorsRevealed[n-1] = !doorsRevealed[n-1];
+  el.textContent = doorsRevealed[n-1] ? doorContent[n-1] : '🚪';
+}
+
+// ── GLOSSARY DATA ──
+const glossaryData = [
+  { term: 'Anecdotal Evidence', tag: 'evidence', def: 'Brief reports or descriptions of <strong>personal experiences or specific instances</strong> used to support a claim. Scientifically <strong>weak</strong> because it fails to control for the three critical PAEs: Spontaneous Remission, the Placebo Effect, and Confounding Variables.' },
+  { term: 'Applied Research', tag: 'research', def: 'Research conducted primarily to <strong>solve a specific real-world problem</strong> or create a particular intervention. Focuses primarily on the goals of <strong>Prediction and Control</strong>.' },
+  { term: 'Authority', tag: 'ways of knowing', def: 'A method of acquiring knowledge by relying on information from a <strong>trusted or respected source</strong> (e.g., parents, experts, textbooks). Efficient but truth is entirely dependent on the source\'s credibility and objectivity.' },
+  { term: 'Basic Research', tag: 'research', def: 'Research conducted primarily to explore the <strong>fundamental nature of phenomena</strong> and increase the body of scientific knowledge. Driven by curiosity; focuses on <strong>Description and Explanation</strong>.' },
+  { term: 'Causal Chain', tag: 'causation', def: 'A model illustrating that complex psychological phenomena are often the result of a series of linked causes, distinguishing between <strong>distal causes</strong> (remote, early-stage vulnerability factors) and <strong>proximal causes</strong> (immediate, triggering factors).' },
+  { term: 'Causal Inference', tag: 'causation', def: 'A conclusion that one variable directly influences another. Requires: (1) <strong>Temporal Order</strong>, (2) <strong>Covariation</strong>, and (3) <strong>Absence of PAEs</strong>.' },
+  { term: 'Confirmation Bias', tag: 'bias', def: 'The human tendency to <strong>seek out and favor information that confirms existing beliefs</strong> and to actively discount or avoid contradictory evidence. Severely limits unaided empiricism.' },
+  { term: 'Control (as Goal)', tag: 'goals', def: 'The final, ultimate goal of science: applying scientific knowledge to <strong>influence or modify a phenomenon</strong> in a desired direction (Applied Control).' },
+  { term: 'Control (as Method)', tag: 'methodology', def: 'The ability to <strong>manipulate an Independent Variable (IV)</strong> while holding all other variables (confounds) constant to ensure the IV is the sole cause of changes in the Dependent Variable (DV).' },
+  { term: 'Distal Causes', tag: 'causation', def: 'Remote, early-stage causes in a causal chain that <strong>increase vulnerability</strong> but do not immediately trigger the outcome (e.g., inherited genetic mutations, prenatal insults in schizophrenia).' },
+  { term: 'Empiricism', tag: 'ways of knowing', def: 'Acquiring knowledge based on <strong>direct observation or experience</strong> of the world using the senses. Alone, it is limited by Confirmation Bias and failure to account for PAEs.' },
+  { term: 'Empirical Question', tag: 'methodology', def: 'A question that is <strong>empirically testable</strong> and capable of being answered through systematic observation and measurement.' },
+  { term: 'Falsifiability (Popper)', tag: 'characteristics', def: 'The principle that a theory or hypothesis must be capable of being <strong>proven false</strong> by some conceivable empirical observation or experiment to be considered scientific. The demarcation criterion between science and non-science.' },
+  { term: 'Hypothesis', tag: 'methodology', def: 'A tentative, testable statement about the cause of an event or relationship between two or more variables, derived from existing theory or observation. Subject to rigorous empirical testing.' },
+  { term: 'Operational Definition', tag: 'methodology', def: 'A definition of a concept in terms of the specific <strong>procedures used to measure or manipulate it</strong>. Essential for clarity, objectivity, and replication. (e.g., "Aggression" = number of pushes in 30 minutes).' },
+  { term: 'PAEs (Plausible Alternative Explanations)', tag: 'causation', def: 'Any unmeasured or uncontrolled variables (confounds) that provide a <strong>reasonable, alternative interpretation</strong> for the observed relationship between presumed cause and effect. Ruling these out is the hardest criterion for establishing causation.' },
+  { term: 'Proximal Causes', tag: 'causation', def: 'Immediate, close-in-time factors that directly <strong>trigger or contribute to the outcome</strong> in a causal chain, especially in vulnerable individuals (e.g., stressful life events, drug use in young adulthood).' },
+  { term: 'Public Reporting', tag: 'characteristics', def: 'The scientific requirement that findings be made public through a rigorous process, primarily via <strong>peer-reviewed journals</strong>, so they can be independently verified, criticized, and replicated.' },
+  { term: 'Reason (A Priori)', tag: 'ways of knowing', def: 'Acquiring knowledge via <strong>logic and intellectual rationality</strong> (deductive and inductive logic). Strength: guarantees valid conclusions if premises are true. Weakness: conclusions only as sound as initial premises.' },
+  { term: 'Replication', tag: 'characteristics', def: 'Conducting a study again using the same or highly similar procedures to verify results. The ultimate test of a finding\'s reliability and key to <strong>science\'s self-correcting nature</strong>.' },
+  { term: 'Reverse Causality', tag: 'causation', def: 'A PAE where the <strong>assumed effect is actually the cause</strong>. (Y → X, not X → Y). Challenges the Temporal Order criterion. Example: Winning causes Team Cohesion, not vice versa.' },
+  { term: 'Skepticism', tag: 'characteristics', def: 'The intellectual posture of <strong>questioning the validity of any claim</strong> and demanding empirical evidence. It is NOT cynicism — it is open to evidence, not closed off.' },
+  { term: 'Sunk Cost Fallacy', tag: 'bias', def: 'Irrational adherence to a poor choice (Tenacity) to avoid losing an initial investment. Analogous to "staying" with Door 1 in the Monty Hall Problem despite better evidence to switch.' },
+  { term: 'Systematic Empiricism', tag: 'methods', def: 'The foundation of the scientific method. Combines <strong>Reason (logical framework)</strong> with <strong>Empiricism (structured/controlled data collection)</strong> to test claims. Psychology is scientific only because of this methodology.' },
+  { term: 'Tenacity', tag: 'ways of knowing', def: 'Acquiring knowledge by <strong>force of habit</strong> or because something has always been believed. Characterized by resistance to contrary evidence and no self-correction mechanism.' },
+  { term: 'Theory', tag: 'methodology', def: 'A systematic body of ideas about a particular topic that has been <strong>repeatedly tested and strongly supported</strong> by empirical evidence. Theories organize knowledge and generate new hypotheses. NOT a guess.' },
+  { term: 'Third-Variable Problem', tag: 'causation', def: 'A PAE where a third unmeasured variable (Z) causes changes in <strong>both X and Y</strong>, making their observed correlation entirely spurious (a coincidence).' },
+  { term: 'Variable', tag: 'methodology', def: 'Any event, situation, behavior, or individual characteristic that <strong>can change or vary</strong>.' },
+];
+
+function renderGlossary(filter) {
+  const list = document.getElementById('glossaryList');
+  const filtered = filter ? glossaryData.filter(g => g.term.toLowerCase().includes(filter.toLowerCase()) || g.def.toLowerCase().includes(filter.toLowerCase())) : glossaryData;
+  list.innerHTML = filtered.map((g,i) => `
+    <div class="gloss-item" id="gi${i}">
+      <div class="gloss-term" onclick="toggleGloss('gi${i}')">
+        <span><span class="gloss-tag">${g.tag}</span>${g.term}</span>
+        <span class="g-arrow">▼</span>
+      </div>
+      <div class="gloss-def">${g.def}</div>
+    </div>
+  `).join('');
+}
+function toggleGloss(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+function filterGlossary(val) { renderGlossary(val); }
+renderGlossary('');
+
+// ── QUIZ DATA ──
+const questions = [
+  {
+    q: "The Three-Door Problem demonstrates which failure of human cognition?",
+    opts: ["Confirmation Bias overriding empirical evidence","Tenacity/intuition overriding rational analysis","The Third-Variable Problem in everyday reasoning","Reverse Causality in probability estimation"],
+    correct: 1,
+    exp: "<strong>Tenacity</strong> is knowledge by force of habit/intuition. The controversy around Marilyn vos Savant's correct answer (thousands of academics saying 50/50) is the textbook example of intuitive tenacity overriding rigorous rational Reason."
+  },
+  {
+    q: "A researcher observes that children who watch more TV have lower grades. She concludes that TV causes poor academic performance. What is the most likely PAE she has ignored?",
+    opts: ["Spontaneous Remission","Reverse Causality — poor grades cause more TV watching","The Third-Variable Problem — parental involvement may explain both","The Placebo Effect"],
+    correct: 2,
+    exp: "<strong>The Third-Variable Problem</strong>: A third variable Z (e.g., parental involvement or socioeconomic status) could be causing both high TV watching (X) and low grades (Y), making their correlation spurious. This is a challenge to the Absence of PAEs criterion."
+  },
+  {
+    q: "Karl Popper's Falsifiability Principle states that:",
+    opts: ["All scientific theories must eventually be proven false","A theory is scientific only if it can be proven 100% true","A theory must be capable of being proven false by empirical observation to be scientific","Scientific theories should never be questioned once established"],
+    correct: 2,
+    exp: "<strong>Falsifiability</strong> is the demarcation criterion between science and non-science. A theory doesn't need to BE false — it needs to be CAPABLE of being tested in a way that could reveal it as false. Claims that can explain any possible outcome are non-falsifiable and therefore unscientific."
+  },
+  {
+    q: "What is an Operational Definition and why is it essential?",
+    opts: ["A dictionary definition of a concept used in everyday language","A definition in terms of the specific procedures used to measure or manipulate a concept, essential for replication","A broad theoretical description of a concept's meaning","A statistical measure of how precisely a concept is defined"],
+    correct: 1,
+    exp: "An <strong>Operational Definition</strong> translates an abstract concept into observable, measurable procedures. For example, 'aggression' = 'number of pushes in 30 minutes'. This ensures any other researcher can measure the same thing the same way — making replication possible."
+  },
+  {
+    q: "What distinguishes Basic Research from Applied Research?",
+    opts: ["Basic research uses better methodology than applied research","Basic research focuses on Description/Explanation; Applied focuses on Prediction/Control","Basic research uses human participants; applied uses animals","Applied research is more important to society"],
+    correct: 1,
+    exp: "<strong>Basic Research</strong> is curiosity-driven and aims to increase scientific knowledge (goals: Description and Explanation). <strong>Applied Research</strong> is problem-driven and aims to solve real-world problems (goals: Prediction and Control). They are interdependent — not in competition."
+  },
+  {
+    q: "Which of the following correctly describes the weakness of Reason (A Priori) as a standalone method?",
+    opts: ["It relies too heavily on empirical observation, making it prone to bias","A conclusion can be logically valid but empirically false if the premises are wrong","It requires too many participants to draw valid conclusions","It cannot be applied to psychological phenomena"],
+    correct: 1,
+    exp: "The <strong>Problem of the Premises</strong>: Reason provides a valid logical structure — but if the initial premises are false, the conclusion will also be false in reality (even if logically valid). Example: Piaget's premise that infants only understand Object Permanence after 9 months was later found to be empirically wrong."
+  },
+  {
+    q: "The 'Balanced Placebo Design' is designed primarily to:",
+    opts: ["Test whether a drug has any chemical effect at all","Separate the physiological effect of a substance from the psychological effect of expectation (Placebo Effect)","Ensure random assignment of participants to conditions","Eliminate experimenter bias through blinding"],
+    correct: 1,
+    exp: "The <strong>Balanced Placebo Design</strong> uses a 2×2 matrix (Actual Drink × Expectation) to isolate the drug's true physiological effect from the psychological effect of simply believing you received the drug. Group 2 (alcoholic drink + expects non-alcoholic) measures pure drug effect; Group 3 (non-alcoholic + expects alcohol) measures pure Placebo/expectation effect."
+  },
+  {
+    q: "What is the key difference between Prediction and Explanation in scientific goals?",
+    opts: ["Prediction requires controlled experiments; Explanation does not","A variable can be a good predictor through correlation without being the true cause","Explanation is a goal of basic research; Prediction is only for applied research","Prediction comes before Explanation in the hierarchy of scientific goals"],
+    correct: 1,
+    exp: "This is a critical distinction. <strong>Prediction</strong> only requires covariation (high correlation). <strong>Explanation</strong> requires establishing causation — all 3 criteria including Absence of PAEs. Example: HS GPA predicts College GPA well, but motivation may be the underlying cause of both."
+  },
+  {
+    q: "A company runs a leadership training program and notices those who complete it are most successful. The HR team concludes the program caused success. What specific PAE challenge is this?",
+    opts: ["Reverse Causality — success caused them to complete the program","Third-Variable Problem — talented managers were selected AND were destined to succeed","Spontaneous Remission — managers would have improved without any program","Confirmation Bias — the HR team ignored failing managers"],
+    correct: 1,
+    exp: "Classic <strong>Third-Variable Problem</strong>: Superior Talent (Z) may have caused both selection for the program (X) AND success (Y). The correlation between program completion and success is spurious — driven by the unmeasured confound of prior talent."
+  },
+  {
+    q: "What makes Systematic Empiricism superior to either Reason OR Empiricism alone?",
+    opts: ["It only uses empirical observation, eliminating logical bias","It combines the logical framework of Reason with the structured data collection of Empiricism, making it self-correcting","It relies on authority figures to validate findings","It eliminates the need for replication"],
+    correct: 1,
+    exp: "<strong>Systematic Empiricism</strong> solves the fatal flaws of both: Reason's Problem of Premises is checked by empirical data; Empiricism's biases (Confirmation Bias, lack of controls) are addressed by logical structure and controlled design. Together they create a self-correcting system."
+  },
+  {
+    q: "Distal causes in a causal chain are best described as:",
+    opts: ["Immediate triggers that directly produce the outcome","The most important factor in causing a psychological disorder","Remote, early-stage factors that increase vulnerability without immediately triggering the outcome","PAEs that are difficult to measure"],
+    correct: 2,
+    exp: "<strong>Distal causes</strong> are early-stage, remote vulnerability factors (e.g., genetic mutations, prenatal insults). They do not directly trigger the outcome — they load the gun. <strong>Proximal causes</strong> pull the trigger (e.g., stressful life events in young adulthood in someone with genetic vulnerability)."
+  },
+  {
+    q: "Replication is described as the 'ultimate test of reliability' because:",
+    opts: ["It proves a finding is permanently true beyond doubt","If independent researchers obtain the same results using the same procedures, the finding is more likely to be real and not a statistical fluke","It eliminates the need for peer review","It confirms the original theory was correct from the start"],
+    correct: 1,
+    exp: "<strong>Replication</strong> is the mechanism by which science self-corrects. A single study could be a fluke or contain errors. When independent researchers replicate findings using the same procedures, confidence in the finding's reliability increases dramatically. Without replication, we can't distinguish real effects from random chance or methodological errors."
+  },
+  {
+    q: "Which statement correctly describes the relationship between correlation and causation?",
+    opts: ["Correlation always implies causation if the sample is large enough","Correlation is sufficient to establish causation in observational studies","Correlation is necessary for causation but never sufficient; causation requires ruling out PAEs","If two variables are correlated, they cannot have a causal relationship"],
+    correct: 2,
+    exp: "<strong>Correlation is necessary but never sufficient for causation.</strong> Covariation (correlation) is only Criterion 2 of the 3 required. You still need Temporal Order (1) and Absence of PAEs (3). A third variable could always be causing both, or causality could run in the opposite direction."
+  },
+  {
+    q: "The Sunk Cost Fallacy in decision-making is best understood as:",
+    opts: ["A form of Confirmation Bias where positive outcomes are selectively remembered","A manifestation of Tenacity — irrationally clinging to a poor choice to avoid losing an initial investment","A Third-Variable Problem in financial reasoning","A failure of Empiricism in economic contexts"],
+    correct: 1,
+    exp: "<strong>Sunk Cost Fallacy</strong> is Tenacity in disguise. Just as a Monty Hall contestant 'stays' with Door 1 out of attachment (not rational analysis), an investor stays with a failing stock because they've already invested — ignoring that the rational analysis clearly points to switching."
+  },
+  {
+    q: "Why is anecdotal evidence considered scientifically weak?",
+    opts: ["It involves too few participants to be statistically significant","It is unethical to use personal experience in scientific research","It fails to control for the three critical PAEs: Spontaneous Remission, Placebo Effect, and Confounding Variables","It relies on Authority rather than direct observation"],
+    correct: 2,
+    exp: "<strong>Anecdotal evidence</strong> is unaided empiricism. When someone says 'my cold improved after taking herbal tea,' you can't rule out: (1) Spontaneous Remission — it would have improved anyway; (2) Placebo Effect — the belief in the remedy; (3) Confounding Variables — they also rested, hydrated, etc. Without controlling for these, the anecdote proves nothing."
+  },
+  {
+    q: "According to the course content, what is Skepticism (and what it is NOT)?",
+    opts: ["Refusing to believe any claim without absolute mathematical proof","Assuming all authority figures are biased and unreliable","Questioning the validity of claims and demanding empirical evidence — NOT cynical closed-mindedness","The same as confirmation bias, but applied to scientific claims"],
+    correct: 2,
+    exp: "<strong>Skepticism</strong> is an intellectual posture of questioning claims and demanding to see the empirical evidence — regardless of the source. Crucially, it is NOT cynicism. Cynicism dismisses claims without evidence; skepticism demands evidence before accepting OR rejecting them. Skepticism is fundamentally open-minded."
+  },
+  {
+    q: "In the context of PAEs, what is 'Reverse Causality'?",
+    opts: ["When a third variable causes both X and Y simultaneously","When the assumed effect (Y) is actually the cause of the assumed cause (X)","When a study's findings cannot be replicated in reverse conditions","When control groups show stronger effects than experimental groups"],
+    correct: 1,
+    exp: "<strong>Reverse Causality</strong> is a challenge to the Temporal Order criterion. Instead of X → Y, the true causal direction may be Y → X. Example: Instead of Team Cohesion → Winning, the reality may be Winning → Team Cohesion. The experience of success creates the bond."
+  },
+  {
+    q: "Public Reporting through peer-reviewed journals serves what primary function?",
+    opts: ["Ensuring scientists get credit and citations for their work","Restricting access to findings so they cannot be misused","Enabling independent verification, criticism, and replication — making science self-correcting","Providing a financial incentive structure for scientific research"],
+    correct: 2,
+    exp: "<strong>Public Reporting</strong> is one of science's self-correcting characteristics. By making findings public via rigorous peer review, other scientists can examine the methodology, attempt to replicate, and identify errors or alternative explanations. Without this, errors persist unchallenged."
+  },
+  {
+    q: "Why is the Absence of PAEs the HARDEST criterion for establishing causation?",
+    opts: ["Because it requires measuring variables that may be difficult to quantify","Because an infinite number of potential confounding variables could exist, and ruling them all out is practically impossible without perfect experimental control","Because temporal order is always ambiguous in psychological studies","Because covariation can never be measured accurately"],
+    correct: 1,
+    exp: "The number of potential <strong>PAEs</strong> is theoretically infinite — any unmeasured variable that correlates with X could be causing Y instead. Complete elimination requires perfect experimental control (random assignment, double-blind design). This is why even controlled studies acknowledge the possibility of undetected PAEs, and why replication matters so much."
+  },
+  {
+    q: "What is the correct relationship between Basic and Applied Research?",
+    opts: ["Applied research is more important because it solves real problems; basic research is a luxury","They are completely independent — basic researchers never benefit from applied work","Basic research provides fundamental theories; applied research applies them to solve problems; applied research in turn generates new questions for basic research. They are mutually interdependent.","Applied research always comes before basic research in the scientific process"],
+    correct: 2,
+    exp: "Basic and Applied research are <strong>highly interdependent and reciprocal</strong>. The classic example: Hofmann, Eaklid & Ekblad's basic research on absolute thresholds of hearing and touch → Applied research used those findings to design warning signals for high-rise buildings. Applied problems then generate new basic research questions. Neither is superior."
+  }
+];
+
+let scores = new Array(questions.length).fill(null);
+
+function updateProgress() {
+  const answered = scores.filter(s => s !== null).length;
+  const correct = scores.filter(s => s === true).length;
+  document.getElementById('progressFill').style.width = (answered / questions.length * 100) + '%';
+  document.getElementById('progressLabel').textContent = `${answered} / ${questions.length} questions answered · ${correct} correct`;
+  document.getElementById('scoreDisplay').textContent = `${correct} / ${questions.length} correct`;
+}
+
+function renderQuiz() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = questions.map((q, qi) => `
+    <div class="question-card" id="qcard${qi}">
+      <div class="q-num">QUESTION ${qi+1} OF ${questions.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-options">
+        ${q.opts.map((opt, oi) => `
+          <button class="q-option" id="qopt${qi}-${oi}" onclick="selectAnswer(${qi}, ${oi})">
+            <span class="opt-letter">${String.fromCharCode(65+oi)}</span>
+            <span>${opt}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="q-explanation" id="qexp${qi}">${q.exp}</div>
+    </div>
+  `).join('');
+}
+
+function selectAnswer(qi, oi) {
+  if (scores[qi] !== null) return;
+  const q = questions[qi];
+  const isCorrect = oi === q.correct;
+  scores[qi] = isCorrect;
+  const card = document.getElementById('qcard' + qi);
+  card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+  q.opts.forEach((_, optIdx) => {
+    const btn = document.getElementById(`qopt${qi}-${optIdx}`);
+    btn.disabled = true;
+    if (optIdx === q.correct) btn.classList.add('correct');
+    else if (optIdx === oi && !isCorrect) btn.classList.add('wrong');
+  });
+  document.getElementById('qexp' + qi).classList.add('show');
+  updateProgress();
+}
+
+renderQuiz();
+updateProgress();
+</script>
+</body>
+</html>
